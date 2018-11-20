@@ -1,0 +1,15 @@
+{
+  "name": "jsdoc-parser",
+  "version": "1.0.0",
+  "description": "Parses JSDoc to a JSON file that can be imported by the WordPress phpdoc-parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "get-line-from-pos": "^1.0.0",
+    "taffydb": "^2.7.3"
+  }
+}

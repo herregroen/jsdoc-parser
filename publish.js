@@ -8,6 +8,7 @@ const getNodeDoc = require( "./lib/get_node_doc" );
 const getNodeProperty = require( "./lib/get_node_property" );
 const getNodeFunction = require( "./lib/get_node_function" );
 const getNodeClass = require( "./lib/get_node_class" );
+const setNodePackage = require( "./lib/set_node_package" );
 
 /**
  * Generate documentation output.ßß
@@ -17,7 +18,10 @@ const getNodeClass = require( "./lib/get_node_class" );
  * @param {object} opts - An object with options information.
  */
 exports.publish = function( data ) {
-	var i, node, relative_path, file_path;
+	var i, node, relative_path, file_path, packages, packages_root;
+
+	packages      = env.conf.templates.packages;
+	packages_root = env.conf.templates.packagesRoot || "/";
 
 	// Get all nodes that have documentation and
 	// are not a member of an anonymous namespace.
@@ -42,6 +46,11 @@ exports.publish = function( data ) {
 		node = class_nodes[ i ];
 
 		relative_path = path.relative( base_path, node.meta.path );
+
+		if ( packages ) {
+			node = setNodePackage( node, packages_root, relative_path );
+		}
+
 		file_path = relative_path + "/" + node.meta.filename;
 		files = ensureFiles( files, file_path, base_path );
 
@@ -54,6 +63,11 @@ exports.publish = function( data ) {
 		node = other_nodes[ i ];
 
 		relative_path = path.relative( base_path, node.meta.path );
+
+		if ( packages ) {
+			node = setNodePackage( node, packages_root, relative_path );
+		}
+
 		file_path = relative_path + "/" + node.meta.filename;
 		files = ensureFiles( files, file_path, base_path );
 
